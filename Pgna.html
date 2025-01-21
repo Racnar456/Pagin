@@ -3,19 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Cosas</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Agregar y Eliminar Elementos</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Agregar Cosas a la Lista</h1>
-        <div class="input-container">
-            <input type="text" id="newItem" placeholder="Escribe algo..." />
-            <button id="addItem">Agregar</button>
-        </div>
-        <ul id="itemList"></ul>
+
+    <h1>Agregar y Eliminar Elementos</h1>
+
+    <div id="container">
+        <input type="text" id="inputText" placeholder="Escribe algo..." />
+        <button id="addButton">Agregar</button>
     </div>
 
-    <script src="script.js"></script>
+    <ul id="list">
+    </ul>
+
+    <script>
+        const addButton = document.getElementById('addButton');
+        const inputText = document.getElementById('inputText');
+        const list = document.getElementById('list');
+
+        // Función para agregar un nuevo elemento
+        addButton.addEventListener('click', function() {
+            const newItemText = inputText.value.trim();
+            if (newItemText !== '') {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-item';
+                listItem.textContent = newItemText;
+
+                // Crear el botón de eliminar
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'deleteButton';
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', function() {
+                    listItem.remove(); // Eliminar el elemento de la lista
+                });
+
+                // Añadir el botón de eliminar al elemento de la lista
+                listItem.appendChild(deleteButton);
+
+                // Agregar el elemento a la lista
+                list.appendChild(listItem);
+
+                // Limpiar el campo de texto
+                inputText.value = '';
+                inputText.focus(); // Enfocar el campo de texto
+            }
+        });
+
+        // También permitir agregar al presionar "Enter"
+        inputText.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                addButton.click();
+            }
+        });
+    </script>
+
 </body>
 </html>
